@@ -6,21 +6,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fsm.admin.RoleRepository;
-import com.fsm.common.PasswordResetRequest;
+import com.fsm.common.PasswordResetForm;
+import com.fsm.user.UserEntity;
+import com.fsm.user.UserRepository;
 
 @Service
 @Transactional
 public class CustomerServiceImpl implements CustomerService{
 	@Autowired
-	CustomerRepository customerRepository;
+	UserRepository userRepository;
 	@Autowired
 	RoleRepository roleRepository;
 	@Autowired
 	private PasswordEncoder bcryptEncoder;
 
 	@Override
-	public CustomerEntity createOrSaveCustomer(CustomerForm form) {
-		CustomerEntity entity = new CustomerEntity();
+	public UserEntity createOrSaveCustomer(CustomerForm form) {
+		UserEntity entity = new UserEntity();
 		
 		entity.setIsActive(true);
 		entity.setIsDeleted(false);
@@ -33,36 +35,36 @@ public class CustomerServiceImpl implements CustomerService{
 		entity.setPassword(bcryptEncoder.encode(form.getPassword()));
 		entity.setDisplayPicUrl(form.getDisplayPicUrl());
 		
-		return customerRepository.saveAndFlush(entity);
+		return userRepository.saveAndFlush(entity);
 	}
 
 	@Override
-	public CustomerEntity findByEmailId(String emailId) {
-		return customerRepository.findByEmailId(emailId);
+	public UserEntity findByEmailId(String emailId) {
+		return userRepository.findByEmailId(emailId);
 	}
 
 	@Override
-	public CustomerEntity findByMobileNo(String mobileNo) {
-		return customerRepository.findByMobileNo(mobileNo);
+	public UserEntity findByMobileNo(String mobileNo) {
+		return userRepository.findByMobileNo(mobileNo);
 	}
 	
 	@Override
 	public boolean existsByEmailId(String customername) {
-		return customerRepository.existsByEmailId(customername);
+		return userRepository.existsByEmailId(customername);
 	}
 
 	@Override
 	public boolean existsByMobileNo(String mobileNo) {
-		return customerRepository.existsByMobileNo(mobileNo);
+		return userRepository.existsByMobileNo(mobileNo);
 	}
 	@Override
-	public String forgetPassword(PasswordResetRequest passwordResetRequestObj) {
-		CustomerEntity customerEntity = customerRepository.findByEmailId(passwordResetRequestObj.getEmailId());
-		if(customerEntity != null)
+	public String forgetPassword(PasswordResetForm passwordResetRequestObj) {
+		UserEntity userEntity = userRepository.findByEmailId(passwordResetRequestObj.getEmailId());
+		if(userEntity != null)
 		{
-//			customerEntity.setPassword(bcryptEncoder.encode(passwordResetRequestObj.getPassword()));
-			customerEntity.setPassword(passwordResetRequestObj.getPassword());
-			customerRepository.saveAndFlush(customerEntity);
+//			userEntity.setPassword(bcryptEncoder.encode(passwordResetRequestObj.getPassword()));
+			userEntity.setPassword(passwordResetRequestObj.getPassword());
+			userRepository.saveAndFlush(userEntity);
 			return "Password Reset Successfully!";
 		}
 		

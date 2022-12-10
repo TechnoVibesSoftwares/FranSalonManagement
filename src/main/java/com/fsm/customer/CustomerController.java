@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fsm.common.PasswordResetRequest;
+import com.fsm.common.PasswordResetForm;
 import com.fsm.util.JsonUtil;
 
 @RestController
@@ -59,16 +59,16 @@ public class CustomerController {
 	}
 	
 	@PostMapping("/cust/forgetPassword")
-	public ResponseEntity<Object> forgetPassword(@RequestBody PasswordResetRequest passwordResetRequest) {
+	public ResponseEntity<Object> forgetPassword(@RequestBody PasswordResetForm passwordResetForm) {
 		LOGGER.info("Inside Forget Password");
 		
-		if(!customerService.existsByEmailId(passwordResetRequest.getEmailId())) {
+		if(!customerService.existsByEmailId(passwordResetForm.getEmailId())) {
 			return ResponseEntity.badRequest().body("Email id is Not exists");
 		}
 		
 	ResponseEntity<Object> responseEntity = null;
 		responseEntity = new ResponseEntity<>(
-				JsonUtil.convertJavaObjectToJson(customerService.forgetPassword(passwordResetRequest)), HttpStatus.OK);
+				JsonUtil.convertJavaObjectToJson(customerService.forgetPassword(passwordResetForm)), HttpStatus.OK);
 		return responseEntity;
 	}
 
