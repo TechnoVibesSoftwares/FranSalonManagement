@@ -51,6 +51,21 @@ public class UserController {
 		return responseEntity;
 	}
 	
+	@PostMapping("/updateUser")
+	public ResponseEntity<Object> createOrSaveUser(@RequestBody UserForm form) {
+		LOGGER.info("Inside Forget Password");
+		
+		if(!userService.existsByEmailId(form.getEmailId())) {
+			return ResponseEntity.badRequest().body("Email id is Not exists");
+		}
+		
+	ResponseEntity<Object> responseEntity = null;
+		responseEntity = new ResponseEntity<>(
+				JsonUtil.convertJavaObjectToJson(userService.updateUser(form)), HttpStatus.OK);
+		return responseEntity;
+	}
+	
+	
 	/*
 	 * @RequestMapping(value="/findByEmailId/{emailId}", method = RequestMethod.GET)
 	 * public ResponseEntity<Object> existsByEmailId(@PathVariable("emailId") String

@@ -19,4 +19,6 @@ public interface UserService {
 	public String forgetPassword(PasswordResetRequest passwordResetRequestObj);
 	public String softDeletebymail(String emailId);
 	
+	public UserEntity updateUser(UserForm form);
+	
 }

@@ -133,6 +133,28 @@ public class UserServiceImpl implements UserService{
 		
 	}
 
+
+
+	@Override
+	public UserEntity updateUser(UserForm form) {
+		UserEntity user = userRepository.findByEmailId(form.getEmailId());
+		
+	   if(user!=null) {
+		   if(!form.getAadharNo().equals("") && !form.getAadharNo().equals("")) {
+			   user.setAadharNo(form.getAadharNo());
+		   }else {
+			   user.setAadharNo(user.getAadharNo());
+		   }
+		   
+		   user.setAccountNo(form.getAccountNo());
+		   user.setAlternateMobileNo(form.getAlternateMobileNo());
+		   user.setBankName(form.getBankName());
+	   }
+		
+		return userRepository.saveAndFlush(user);
+	}
+
+	
 	
 	
 	
