@@ -19,53 +19,49 @@ import com.fsm.util.JsonUtil;
 public class UserController {
 
 	private static final Logger LOGGER = LogManager.getLogger(UserController.class);
-	
+
 	@Autowired
 	UserService userService;
-	
 
-	
 	@PostMapping("/forgetPassword")
 	public ResponseEntity<Object> createOrSaveUser(@RequestBody PasswordResetRequest passwordResetRequest) {
 		LOGGER.info("Inside Forget Password");
-		
-		if(!userService.existsByEmailId(passwordResetRequest.getEmailId())) {
+
+		if (!userService.existsByEmailId(passwordResetRequest.getEmailId())) {
 			return ResponseEntity.badRequest().body("Email id is Not exists");
 		}
-		
-	ResponseEntity<Object> responseEntity = null;
+
+		ResponseEntity<Object> responseEntity = null;
 		responseEntity = new ResponseEntity<>(
 				JsonUtil.convertJavaObjectToJson(userService.forgetPassword(passwordResetRequest)), HttpStatus.OK);
 		return responseEntity;
 	}
-	
-	
-	@RequestMapping(value="/getUserList", method = RequestMethod.GET)
+
+	@RequestMapping(value = "/getUserList", method = RequestMethod.GET)
 	public ResponseEntity<Object> getUserList() {
 		LOGGER.info("Inside get User List");
-		
-	ResponseEntity<Object> responseEntity = null;
-		responseEntity = new ResponseEntity<>(
-				JsonUtil.convertJavaObjectToJson(userService.getUserList()), HttpStatus.OK);
-		
+
+		ResponseEntity<Object> responseEntity = null;
+		responseEntity = new ResponseEntity<>(JsonUtil.convertJavaObjectToJson(userService.getUserList()),
+				HttpStatus.OK);
+
 		return responseEntity;
 	}
-	
+
 	@PostMapping("/updateUser")
-	public ResponseEntity<Object> createOrSaveUser(@RequestBody UserForm form) {
+	public ResponseEntity<Object> updateUser(@RequestBody UserForm form) {
 		LOGGER.info("Inside Forget Password");
-		
-		if(!userService.existsByEmailId(form.getEmailId())) {
+
+		if (!userService.existsByEmailId(form.getEmailId())) {
 			return ResponseEntity.badRequest().body("Email id is Not exists");
 		}
-		
-	ResponseEntity<Object> responseEntity = null;
-		responseEntity = new ResponseEntity<>(
-				JsonUtil.convertJavaObjectToJson(userService.updateUser(form)), HttpStatus.OK);
+
+		ResponseEntity<Object> responseEntity = null;
+		responseEntity = new ResponseEntity<>(JsonUtil.convertJavaObjectToJson(userService.updateUser(form)),
+				HttpStatus.OK);
 		return responseEntity;
 	}
-	
-	
+
 	/*
 	 * @RequestMapping(value="/findByEmailId/{emailId}", method = RequestMethod.GET)
 	 * public ResponseEntity<Object> existsByEmailId(@PathVariable("emailId") String
@@ -86,56 +82,50 @@ public class UserController {
 	 * JsonUtil.convertJavaObjectToJson(userService.findByMobileNo(mobileNo)),
 	 * HttpStatus.OK); return responseEntity; }
 	 */
-	
+
 	@PostMapping("/findByMail")
 	public ResponseEntity<Object> findByEmailId(@RequestBody FindByEmailAndMobileForm findByEmail) {
 		LOGGER.info("Inside find by mail");
 		ResponseEntity<Object> responseEntity = null;
-		System.out.println("EmailId :" +findByEmail.getEmailId());
-		
-		if(findByEmail.getEmailId()!=null)
-		{
-			if(!userService.existsByEmailId(findByEmail.getEmailId())) {
+		System.out.println("EmailId :" + findByEmail.getEmailId());
+
+		if (findByEmail.getEmailId() != null) {
+			if (!userService.existsByEmailId(findByEmail.getEmailId())) {
 				return ResponseEntity.badRequest().body("Email id is Not exists");
 			}
 			responseEntity = new ResponseEntity<>(
-					JsonUtil.convertJavaObjectToJson(userService.findByEmailId(findByEmail.getEmailId())), HttpStatus.OK);
-			
-		}
-		else if(findByEmail.getMobileNo() != null)
-		{
-			if(!userService.existsByMobileNo(findByEmail.getMobileNo())) {
+					JsonUtil.convertJavaObjectToJson(userService.findByEmailId(findByEmail.getEmailId())),
+					HttpStatus.OK);
+
+		} else if (findByEmail.getMobileNo() != null) {
+			if (!userService.existsByMobileNo(findByEmail.getMobileNo())) {
 				return ResponseEntity.badRequest().body("Mobile number is Not exists");
 			}
 			responseEntity = new ResponseEntity<>(
-					JsonUtil.convertJavaObjectToJson(userService.findByMobileNo(findByEmail.getMobileNo())), HttpStatus.OK);
+					JsonUtil.convertJavaObjectToJson(userService.findByMobileNo(findByEmail.getMobileNo())),
+					HttpStatus.OK);
 		}
-		
+
 		return responseEntity;
 	}
-	
-	
-	
-	
+
 	@PostMapping("/deleteByMail")
 	public ResponseEntity<Object> softDeleteByMailId(@RequestBody FindByEmailAndMobileForm softDeletebymail) {
 		LOGGER.info("Inside find by mail");
 		ResponseEntity<Object> responseEntity = null;
-		System.out.println("EmailId :" +softDeletebymail.getEmailId());
-		
-		if(softDeletebymail.getEmailId()!=null)
-		{
-			if(!userService.existsByEmailId(softDeletebymail.getEmailId())) {
+		System.out.println("EmailId :" + softDeletebymail.getEmailId());
+
+		if (softDeletebymail.getEmailId() != null) {
+			if (!userService.existsByEmailId(softDeletebymail.getEmailId())) {
 				return ResponseEntity.badRequest().body("Email id is Not exists");
 			}
 			responseEntity = new ResponseEntity<>(
-					JsonUtil.convertJavaObjectToJson(userService.softDeletebymail(softDeletebymail.getEmailId())), HttpStatus.OK);
-			
+					JsonUtil.convertJavaObjectToJson(userService.softDeletebymail(softDeletebymail.getEmailId())),
+					HttpStatus.OK);
+
 		}
-		
-		
+
 		return responseEntity;
 	}
-	
-	
+
 }

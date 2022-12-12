@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fsm.user.UserService;
 import com.fsm.util.JsonUtil;
 
 
@@ -32,5 +31,19 @@ public class ServiceProviderController {
 		return responseEntity;
 	}
 	
+	
+	@PostMapping("/updateServiceProvider")
+	public ResponseEntity<Object> updateServiceProvider(@RequestBody ServiceProviderForm form) {
+		LOGGER.info("Inside Forget Password");
+
+		if (!serviceProviderService.existsByEmailId(form.getEmailId())) {
+			return ResponseEntity.badRequest().body("Email id is Not exists");
+		}
+
+		ResponseEntity<Object> responseEntity = null;
+		responseEntity = new ResponseEntity<>(JsonUtil.convertJavaObjectToJson(serviceProviderService.updateServiceProvider(form)),
+				HttpStatus.OK);
+		return responseEntity;
+	}
 	
 }

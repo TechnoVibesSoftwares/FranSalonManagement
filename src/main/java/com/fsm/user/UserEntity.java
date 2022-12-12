@@ -97,6 +97,6 @@ public class UserEntity implements Serializable{
 	private String doj; 
 	private Long vendorId;
 	private String vendorEmailId;
-	private String Salary;
+	private String salary;
 	
 }

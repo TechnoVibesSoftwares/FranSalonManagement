@@ -9,9 +9,11 @@ import com.fsm.user.UserEntity;
 public interface CustomerService {
 
 	public UserEntity createOrSaveCustomer(CustomerForm form);
+	public UserEntity updateCustomer(CustomerForm form);
 	public UserEntity findByMobileNo(String mobileNo);
 	public UserEntity findByEmailId(String emailId);
 	boolean existsByEmailId(String username);
 	boolean existsByMobileNo(String mobileNo);
 	public String forgetPassword(PasswordResetForm passwordResetRequestObj);
+	
 }

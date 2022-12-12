@@ -9,6 +9,7 @@ import com.fsm.admin.RoleRepository;
 import com.fsm.common.PasswordResetForm;
 import com.fsm.user.UserEntity;
 import com.fsm.user.UserRepository;
+import com.fsm.util.FormatUtil;
 
 @Service
 @Transactional
@@ -69,6 +70,21 @@ public class CustomerServiceImpl implements CustomerService{
 		}
 		
 		return "Password Cannot Reset ,Try Again!";
+	}
+
+	@Override
+	public UserEntity updateCustomer(CustomerForm form) {
+		UserEntity user = userRepository.findByEmailId(form.getEmailId());
+
+		if (!FormatUtil.isNullOrEmpty(user)) {
+			if (!form.getEmailId().equals("") && !form.getEmailId().equals("")) user.setEmailId(form.getEmailId()); else user.setEmailId(user.getEmailId());
+			if (!form.getName().equals("") && !form.getName().equals("")) user.setName(form.getName()); else user.setName(user.getName());
+			if (!form.getDob().equals("") && !form.getDob().equals("")) user.setDob(form.getDob()); else user.setDob(user.getDob());
+			if (!form.getGender().equals("") && !form.getGender().equals("")) user.setGender(form.getGender()); else user.setGender(user.getGender());
+			if (!form.getPassword().equals("") && !form.getPassword().equals("")) user.setPassword(form.getPassword()); else user.setPassword(user.getPassword());
+			if (!form.getMobileNo().equals("") && !form.getMobileNo().equals("")) user.setMobileNo(form.getMobileNo()); else user.setMobileNo(user.getMobileNo());
+		}
+		return userRepository.saveAndFlush(user);
 	}
 
 }

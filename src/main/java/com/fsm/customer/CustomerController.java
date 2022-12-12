@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fsm.common.PasswordResetForm;
+import com.fsm.serviceprovider.ServiceProviderForm;
 import com.fsm.util.JsonUtil;
 
 @RestController
@@ -69,6 +70,20 @@ public class CustomerController {
 	ResponseEntity<Object> responseEntity = null;
 		responseEntity = new ResponseEntity<>(
 				JsonUtil.convertJavaObjectToJson(customerService.forgetPassword(passwordResetForm)), HttpStatus.OK);
+		return responseEntity;
+	}
+	
+	@PostMapping("/updateServiceProvider")
+	public ResponseEntity<Object> updateServiceProvider(@RequestBody CustomerForm form) {
+		LOGGER.info("Inside Forget Password");
+
+		if (!customerService.existsByEmailId(form.getEmailId())) {
+			return ResponseEntity.badRequest().body("Email id is Not exists");
+		}
+
+		ResponseEntity<Object> responseEntity = null;
+		responseEntity = new ResponseEntity<>(JsonUtil.convertJavaObjectToJson(customerService.updateCustomer(form)),
+				HttpStatus.OK);
 		return responseEntity;
 	}
 

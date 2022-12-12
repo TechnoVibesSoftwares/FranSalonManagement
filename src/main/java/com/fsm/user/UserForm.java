@@ -13,6 +13,7 @@ public class UserForm {
 	
 	private String storeName;
 	private String storeAddress;
+	private String StoreRegistrationNo;
 	private String emailId;
 	private String name;
 	private String dob;

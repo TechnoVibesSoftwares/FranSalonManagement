@@ -10,7 +10,7 @@ public interface UserService {
 	public UserEntity getUserInformation(Long id);
 	public List<UserEntity> getUserList();
 	public UserEntity createOrSaveUser(UserForm form);
-	public UserEntity updateUser(UserForm user, Long id);	
+	public UserEntity updateUser(UserForm user);	
 	public UserEntity findByUserName(String emailId);
 	public UserEntity findByEmailId(String emailId);
 	public UserEntity findByMobileNo(String mobileNo);
@@ -18,7 +18,5 @@ public interface UserService {
 	boolean existsByMobileNo(String mobileNo);
 	public String forgetPassword(PasswordResetRequest passwordResetRequestObj);
 	public String softDeletebymail(String emailId);
-	
-	public UserEntity updateUser(UserForm form);
 	
 }
