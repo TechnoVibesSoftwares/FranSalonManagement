@@ -150,7 +150,7 @@ public class UserServiceImpl implements UserService{
 		   user.setAlternateMobileNo(form.getAlternateMobileNo());
 		   user.setBankName(form.getBankName());
 	   }
-		
+	   
 		return userRepository.saveAndFlush(user);
 	}
 
