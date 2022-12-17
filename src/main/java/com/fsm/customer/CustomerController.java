@@ -73,18 +73,18 @@ public class CustomerController {
 		return responseEntity;
 	}
 	
-	@PostMapping("/updateServiceProvider")
-	public ResponseEntity<Object> updateServiceProvider(@RequestBody CustomerForm form) {
-		LOGGER.info("Inside Forget Password");
-
-		if (!customerService.existsByEmailId(form.getEmailId())) {
-			return ResponseEntity.badRequest().body("Email id is Not exists");
-		}
-
-		ResponseEntity<Object> responseEntity = null;
-		responseEntity = new ResponseEntity<>(JsonUtil.convertJavaObjectToJson(customerService.updateCustomer(form)),
-				HttpStatus.OK);
-		return responseEntity;
-	}
+//	@PostMapping("/updateServiceProvider")
+//	public ResponseEntity<Object> updateServiceProvider(@RequestBody CustomerForm form) {
+//		LOGGER.info("Inside Forget Password");
+//
+//		if (!customerService.existsByEmailId(form.getEmailId())) {
+//			return ResponseEntity.badRequest().body("Email id is Not exists");
+//		}
+//
+//		ResponseEntity<Object> responseEntity = null;
+//		responseEntity = new ResponseEntity<>(JsonUtil.convertJavaObjectToJson(customerService.updateCustomer(form)),
+//				HttpStatus.OK);
+//		return responseEntity;
+//	}
 
 }
