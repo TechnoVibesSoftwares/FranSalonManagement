@@ -12,5 +12,6 @@ public interface ProductService {
 	public ProductEntity findByEmailId(String vendorEmail);
 	boolean existsByEmailId(String vendorEmail);
 	public List<ProductEntity> getProductList();
+	public String deleteByEmail(String vendorEmail);
 	
 }

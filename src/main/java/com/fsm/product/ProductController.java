@@ -56,4 +56,18 @@ public class ProductController {
 
 		return responseEntity;
 	}
+	
+	@PostMapping("/deleteProduct")
+	public ResponseEntity<Object> deleteProduct(@RequestBody ProductForm form) {
+		LOGGER.info("Inside deleteProduct");
+
+		if (!productService.existsByEmailId(form.getVendorEmail())) {
+			return ResponseEntity.badRequest().body("Vendor does Not exists");
+		}
+
+		ResponseEntity<Object> responseEntity = null;
+		responseEntity = new ResponseEntity<>(productService.deleteByEmail(form.getVendorEmail()),
+				HttpStatus.OK);
+		return responseEntity;
+	}
 }

@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 public interface ProductRepository extends JpaRepository<ProductEntity, Long>
 {
 	ProductEntity findByVendorEmail(String vendorEmail);
+	boolean existsByVendorEmail(String vendorEmail);
 }

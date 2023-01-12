@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fsm.user.UserEntity;
 import com.fsm.user.UserRepository;
 import com.fsm.util.FormatUtil;
 
@@ -47,10 +48,12 @@ public class ProductServiceImpl implements ProductService{
 		ProductEntity product = productRepository.findByVendorEmail(form.getVendorEmail());
 
 		if (!FormatUtil.isNullOrEmpty(product)) {
-			if (!form.getProductName().equals("") && !form.getProductName().equals("")) product.setProductName(form.getProductName()); else product.setProductName(product.getProductName());
-			if (!form.getPrice().equals("") && !form.getPrice().equals("")) product.setPrice(form.getPrice()); else product.setPrice(product.getPrice());
-			if (!form.getDiscount().equals("") && !form.getDiscount().equals("")) product.setDiscount(form.getDiscount()); else product.setDiscount(product.getDiscount());
-			
+			if (!form.getProductName().equals("") && !form.getProductName().equals(null)) product.setProductName(form.getProductName()); else product.setProductName(product.getProductName());
+			if (!form.getPrice().equals("") && !form.getPrice().equals(null)) product.setPrice(form.getPrice()); else product.setPrice(product.getPrice());
+			if (!form.getDiscount().equals("") && !form.getDiscount().equals(null)) product.setDiscount(form.getDiscount()); else product.setDiscount(product.getDiscount());
+			if (!form.getDiscount().equals("") && !form.getPrice().equals("")) {
+				product.setNetAmount(calNetAmount(form.getPrice(), form.getDiscount()));
+			}
 		}
 		return productRepository.saveAndFlush(product);
 	}
@@ -62,11 +65,22 @@ public class ProductServiceImpl implements ProductService{
 
 	@Override
 	public boolean existsByEmailId(String vendorEmail) {
-		return userRepository.existsByEmailId(vendorEmail);
+		return productRepository.existsByVendorEmail(vendorEmail);
 	}
 
 	@Override
 	public List<ProductEntity> getProductList() {
 		return productRepository.findAll();
+	}
+
+	@Override
+	public String deleteByEmail(String vendorEmail) {
+		
+		ProductEntity entity = productRepository.findByVendorEmail(vendorEmail);
+		entity.setIsDeleted(true);
+		entity.setIsActive(false);
+				
+		productRepository.saveAndFlush(entity);
+		return "Product deleted successfully";
 	}
 }
